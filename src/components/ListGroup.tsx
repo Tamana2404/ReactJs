@@ -2,15 +2,24 @@
 //no comments inside the fragment
 //this code is of no use , because its hardcoded / already written or static code , we have to use dynamic code or render dynamic lists
 import { useState } from "react";
-function ListGroup(){
-  let items = ['newyork','tokyo','sanfrancisco','london','paris'];
+//lets create a new interface for the list group component , so that we can pass different props to it and reuse it!!
+interface ListGroupProps{
+  //array of list items
+  items:string[];
+  heading:string;
+  //this is the heading of the list group
+  //third property is a function ki jb v select kre kisi item ko , toh wo function call ho which will return nothing
+  onSelectItem:(item:string)=>void;
+}
+function ListGroup({items,heading,onSelectItem}:ListGroupProps){
+  
   // items=[];
 
 
-const message = items.length===0? <p>no item found</p>:null;
-function getMessage(){
-  return items.length===0?<p>no item</p>:null;
-}
+// const message = items.length===0? <p>no item found</p>:null;
+// function getMessage(){
+//   return items.length===0?<p>no item</p>:null;
+// }
 //a variable to keep track of selectedIndex 
 // let selectedIndex = -1; 
 //yhnp pe we initialized selectedIndex to -1, and it will return variable and function -> destructure krke yhi p useState mei pass krdo 
@@ -21,7 +30,7 @@ const [selectedIndex,setSelectedIndex]=useState(-1); //this is a hook which will
 // const handleClick = (event:MouseEvent)=> console.log(event);
     return (
     <>
-    <h1>list</h1>
+    <h1>{heading}</h1>
     <ul className="list-group">
       {/* {message}
       {getMessage()} */}
@@ -34,7 +43,11 @@ const [selectedIndex,setSelectedIndex]=useState(-1); //this is a hook which will
         //  <li className="list-group-item active"
          <li className={selectedIndex===index?'list-group-item active':'list-group-item'}
           key={item}
-          onClick={()=>setSelectedIndex(index)}
+          onClick={()=>{
+            setSelectedIndex(index);
+            onSelectItem(item);
+
+          }}
           //onClick p ye function call krdo
           //onclick ek event h , is event k hone pe function call hoga jise hm eventHandler bolenge
             // (event)=>{
